@@ -3,6 +3,7 @@ import { Button, Form, Label, Input } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
 import useLocalState from "../customHooks/useLocalState";
 import ListItem from "../listItem/ListItem";
+import { youtubeClient } from "../../api/youtubeClient";
 const ListOfVideos = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemPerPage] = useState(9);
@@ -33,6 +34,16 @@ const ListOfVideos = (props) => {
     indexOfFirstItem,
     indexOfLastItem
   );
+
+  async function getYoutubeData() {
+    const resp = await youtubeClient.get("");
+    console.log(resp);
+    return resp;
+  }
+
+  useEffect(() => {
+    getYoutubeData();
+  }, []);
 
   return (
     <Container>
