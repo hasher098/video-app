@@ -4,28 +4,17 @@ import { Button, Form, Label, Input } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
 import { VideoDetails } from "../../interfaces/VideoDetails";
 const ListItem = (props) => {
-  const [itemDetails, setItemDetails] = useState<VideoDetails>();
-  useEffect(() => {
-    const item: VideoDetails = {
-      viewCount: props.data.statistics.viewCount,
-      likeCount: props.data.statistics.likeCount,
-      name: props.data.snippet.title,
-      imgUrl: props.data.snippet.thumbnails.standard.url,
-      addDate: props.data.snippet.publishedAt,
-    };
-    setItemDetails(item);
-  }, []);
   return (
     <li>
-      ViewCount:{itemDetails?.viewCount}
+      ViewCount:{props.data.viewCount}
       <br />
-      LikeCount:{itemDetails?.likeCount}
+      LikeCount:{props.data.likeCount}
       <br />
-      Title:{itemDetails?.name}
+      Title:{props.data.name}
       <br />
-      <img src={itemDetails?.imgUrl}></img>
+      <img src={props.data.imgUrl}></img>
       <br />
-      Published at: {itemDetails?.addDate}
+      Published at: {props.data.addDate}
     </li>
   );
 };

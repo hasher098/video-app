@@ -3,39 +3,44 @@ import { Container, Row, Col } from "reactstrap";
 import ListOfVideos from "../listOfVideos/ListOfVideos";
 import useLocalState from "../customHooks/useLocalState";
 import { Button, Form, Label, Input } from "reactstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { youtubeClient } from "../../api/youtubeClient";
+import { VideoDetails } from "../../interfaces/VideoDetails";
+import { demoArray } from "../../helpers/Demo";
 const Main = () => {
-  const [links, setLinks] = useLocalState([], "data");
-
-  const getDataFromChild = (dataFromChild) => {
-    console.log(dataFromChild);
-    setLinks((data) => [...data, dataFromChild]);
-  };
+  const [details, setDetails] = useLocalState([], "details");
+  const [videoData, setVideoData] = useState([{}]);
 
   //logic for demo button
   const handleDemoClick = () => {
-    const demoArray = [
-      "gl1aHhXnN1k",
-      "3WfV_RNeX1A",
-      "H4apnJOLr2Y",
-      "H4apnJOLr2Y",
-      "H4apnJOLr2Y",
-      "gl1aHhXnN1k",
-      "3WfV_RNeX1A",
-      "H4apnJOLr2Y",
-      "gl1aHhXnN1k",
-      "3WfV_RNeX1A",
-      "H4apnJOLr2Y",
-      "gl1aHhXnN1k",
-      "3WfV_RNeX1A",
-      "H4apnJOLr2Y",
-    ];
-    setLinks(demoArray);
+    setDetails(demoArray);
   };
 
   const handleClearClick = () => {
-    setLinks([]);
+    setDetails([]);
   };
+  const getDataFromChild = (dataFromChild) => {
+    getYoutubeData(dataFromChild).then((res) => {
+      let item: VideoDetails = {
+        viewCount: res.statistics.viewCount,
+        likeCount: res.statistics.likeCount,
+        name: res.snippet.title,
+        imgUrl: res.snippet.thumbnails.standard.url,
+        addDate: Date(),
+      };
+      setDetails((data) => [...data, item]);
+    });
+  };
+
+  //Part with loading data about videos
+  const KEY = "";
+  async function getYoutubeData(id) {
+    const resp = await youtubeClient.get(
+      `videos?part=snippet%2CcontentDetails%2Cstatistics&id=${id}&key=${KEY}`
+    );
+    return resp.data.items[0];
+  }
+
   return (
     <Container className="themed-container">
       <TextArea parentCallback={getDataFromChild}></TextArea>
@@ -45,7 +50,7 @@ const Main = () => {
       <Button color="info" onClick={handleClearClick}>
         Clear List
       </Button>
-      <ListOfVideos listOfLinks={links}></ListOfVideos>
+      <ListOfVideos videoData={details}></ListOfVideos>
     </Container>
   );
 };

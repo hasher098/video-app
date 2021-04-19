@@ -14,9 +14,6 @@ const ListOfVideos = (props) => {
   const [firstButton, setFirstButton] = useState("success");
   const [secondButton, setSecondButton] = useState("secondary");
 
-  //data about typed videos
-  const [videosData, setVideosData] = useState([{}]);
-  const KEY = "";
   const handleSwitchClick = (event) => {
     if (event.target.id === "list") {
       setListType("list");
@@ -33,46 +30,24 @@ const ListOfVideos = (props) => {
   //Logic for current items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  let currentItems = props.listOfLinks.slice(indexOfFirstItem, indexOfLastItem);
-
-  async function getYoutubeData(id) {
-    const resp = await youtubeClient.get(
-      `videos?part=snippet%2CcontentDetails%2Cstatistics&id=${id}&key=${KEY}`
-    );
-    return resp.data.items[0];
-  }
+  const currentItems = props.videoData.slice(indexOfFirstItem, indexOfLastItem);
 
   //Logic for page numbers
   useEffect(() => {
     const pageNumbersArr: number[] = [];
     for (
       let i = 1;
-      i <= Math.ceil(props.listOfLinks.length / itemsPerPage);
+      i <= Math.ceil(props.videoData.length / itemsPerPage);
       i++
     ) {
       pageNumbersArr.push(i);
     }
     setPageNumbers(pageNumbersArr);
-  }, [props.listOfLinks]);
-
-  useEffect(() => {
-    console.log(currentPage);
-    console.log(currentItems);
-    console.log(videosData);
-  });
+  }, [props.videoData]);
 
   const handleNumberClick = (event) => {
     setCurrentPage(event.target.id);
   };
-
-  useEffect(() => {
-    setVideosData([]);
-    currentItems.map((item) =>
-      getYoutubeData(item).then((res) => {
-        setVideosData((data) => [...data, res]);
-      })
-    );
-  }, []);
 
   return (
     <Container>
@@ -82,23 +57,6 @@ const ListOfVideos = (props) => {
       <Button color={secondButton} id="tiles" onClick={handleSwitchClick}>
         Kafelki
       </Button>
-
-      <Row>
-        {videosData.length === currentItems.length &&
-          listType === "list" &&
-          videosData.map((item, id) => (
-            <ul key={id.toString()}>
-              <ListItem key={id.toString()} data={item}></ListItem>
-            </ul>
-          ))}
-
-        {videosData.length === currentItems.length &&
-          listType === "tiles" &&
-          videosData.map((item, id) => (
-            <TileItem key={id.toString()} data={item}></TileItem>
-          ))}
-      </Row>
-
       <ul>
         {pageNumbers.map((item) => (
           <li key={item} id={item.toString()} onClick={handleNumberClick}>
@@ -106,6 +64,21 @@ const ListOfVideos = (props) => {
           </li>
         ))}
       </ul>
+      <Row>
+        {currentItems.length > 1 &&
+          listType === "list" &&
+          currentItems.map((item, id) => (
+            <ul key={id.toString()}>
+              <ListItem key={id.toString()} data={item}></ListItem>
+            </ul>
+          ))}
+
+        {currentItems.length > 1 &&
+          listType === "tiles" &&
+          currentItems.map((item, id) => (
+            <TileItem key={id.toString()} data={item}></TileItem>
+          ))}
+      </Row>
     </Container>
   );
 };
