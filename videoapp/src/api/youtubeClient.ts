@@ -1,6 +1,17 @@
 import axios from "axios";
 
 const KEY = "AIzaSyD-yv_9k-HBwUo1yQe2fAhIR0blpNAdshg";
-export const youtubeClient = axios.create({
+const youtubeClient = axios.create({
   baseURL: `https://youtube.googleapis.com/youtube/v3`,
 });
+
+export const getYoutubeData = async (id) => {
+  const resp = await youtubeClient.get(
+    `videos?part=snippet%2CcontentDetails%2Cstatistics&id=${id}&key=${KEY}`
+  );
+  if (resp.status == 200) {
+    return resp.data.items[0];
+  } else {
+    return Error("Bad Request");
+  }
+};
