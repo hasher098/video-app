@@ -4,7 +4,7 @@ import ListOfVideos from "../listOfVideos/ListOfVideos";
 import useLocalState from "../customHooks/useLocalState";
 import { Button, Form, Label, Input } from "reactstrap";
 import { useEffect, useState, useContext, createContext } from "react";
-import { youtubeClient } from "../../api/youtubeClient";
+import { getYoutubeData } from "../../api/youtubeClient";
 import { VideoDetails } from "../../interfaces/VideoDetails";
 import { demoArray } from "../../helpers/Demo";
 import {
@@ -23,11 +23,12 @@ const Main = () => {
   const [details, setDetails] = useLocalState([], "details");
   const [favourite, setFavourite] = useLocalState([], "favourite");
   const [favCheckBox, setFavCheckBox] = useState(false);
-  const [finalData, setFinalData] = useLocalState([], "details");
+  const [finalData, setFinalData] = useLocalState([], "finalData");
   //logic for sorting dropdown
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const [sortBy, setSortBy] = useState("oldest");
+
   const deleteItem = (item: number) => {
     const videoArray = localStorage.getItem("details");
     if (videoArray) {
@@ -49,28 +50,30 @@ const Main = () => {
     const videoArray = localStorage.getItem("details");
     if (videoArray) {
       const copy = JSON.parse(videoArray);
-
-      let video = copy[item];
-      video.id = copy[item].id;
-      setFavourite((data) => [...data, video]);
+      let isAny: boolean = favourite.find((x) => x.id === item);
+      if (!isAny) {
+        let video = copy[item];
+        video.id = copy[item].id;
+        setFavourite((data) => [...data, video]);
+      }
     }
   };
 
   const deleteFromFavourite = (item: number) => {
     let itemForDelete;
     let arrayCopy = localStorage.getItem("favourite");
+    if (arrayCopy) {
+      const copy = JSON.parse(arrayCopy);
+      let isAny: boolean = favourite.find((x) => x.id === item);
 
-    favourite.forEach((element) => {
-      if (element.id == item) {
-        itemForDelete = favourite.indexOf(element);
-        if (arrayCopy) {
-          const copy = JSON.parse(arrayCopy);
-          copy.splice(itemForDelete, 1);
+      if (isAny) {
+        itemForDelete = favourite.indexOf(isAny);
 
-          setFavourite(copy);
-        }
+        copy.splice(itemForDelete, 1);
+
+        setFavourite(copy);
       }
-    });
+    }
   };
 
   //logic for demo button
@@ -83,18 +86,22 @@ const Main = () => {
     setDetails([]);
     setFavourite([]);
   };
-  const getDataFromChild = (dataFromChild) => {
-    getYoutubeData(dataFromChild).then((res) => {
-      let item: VideoDetails = {
-        id: details.length,
-        viewCount: res.statistics.viewCount,
-        likeCount: res.statistics.likeCount,
-        name: res.snippet.title,
-        imgUrl: res.snippet.thumbnails.standard.url,
-        addDate: Date(),
-      };
-      setDetails((data) => [...data, item]);
-    });
+  const getDataFromChild = async (dataFromChild, whichService) => {
+    getYoutubeData(dataFromChild)
+      .then((res) => {
+        let item: VideoDetails = {
+          id: details.length,
+          viewCount: res.statistics.viewCount,
+          likeCount: res.statistics.likeCount,
+          name: res.snippet.title,
+          imgUrl: res.snippet.thumbnails.standard.url,
+          addDate: Date(),
+        };
+        setDetails((data) => [...data, item]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   //sorting
@@ -125,13 +132,6 @@ const Main = () => {
     }
   };
   //Part with loading data about videos
-  const KEY = "";
-  async function getYoutubeData(id) {
-    const resp = await youtubeClient.get(
-      `videos?part=snippet%2CcontentDetails%2Cstatistics&id=${id}&key=${KEY}`
-    );
-    return resp.data.items[0];
-  }
 
   const handleCheckBoxChange = (event) => {
     setFavCheckBox(event.target.checked);

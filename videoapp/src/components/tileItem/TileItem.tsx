@@ -1,6 +1,12 @@
 import { render } from "@testing-library/react";
-import React, { useContext, useEffect, useState } from "react";
-import { Button, Form, Label, Input, CardLink } from "reactstrap";
+import React, {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  createRef,
+} from "react";
+import { Button, Form, Label, Input, CardLink, Modal } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import {
@@ -18,7 +24,7 @@ const TileItem = (props) => {
   const { deleteItem, addToFavourite, deleteFromFavourite } = useContext(
     ContextDetails
   );
-  const [addedFav, setAddedFav] = useState(false);
+  const [isFav, setIsFav] = useState(false);
 
   const handleDeleteClick = () => {
     deleteItem(props.data.id);
@@ -31,7 +37,7 @@ const TileItem = (props) => {
       let has = copy.find((item) => {
         return props.data.id == item.id;
       });
-      has ? setAddedFav(false) : setAddedFav(true);
+      has ? setIsFav(true) : setIsFav(false);
     }
   }
   useEffect(() => {
@@ -40,20 +46,30 @@ const TileItem = (props) => {
 
   const handleAddToFavouriteClick = () => {
     addToFavourite(props.data.id);
-    setAddedFav(false);
+    console.log(props.data.id);
+    setIsFav(true);
   };
 
   const handleDeleteFromFavouriteClick = () => {
     deleteFromFavourite(props.data.id);
-    setAddedFav(true);
+    setIsFav(false);
   };
+  //youtube modal video
+  const [modal, setModal] = useState(false);
+
+  const toggle = () => setModal(!modal);
   return (
     <Col sm="4">
       <Card>
         <CardBody>
           <CardTitle tag="h5">{props.data.name}</CardTitle>
         </CardBody>
-        <img width="100%" src={props.data.imgUrl} alt="Image" />
+        <img
+          onClick={toggle}
+          width="100%"
+          src={props.data.imgUrl}
+          alt="Image"
+        />
         <CardBody>
           <CardText>
             Views:{props.data.viewCount}
@@ -62,20 +78,32 @@ const TileItem = (props) => {
             ID:{props.data.id}
           </CardText>
 
-          <Button>Obejrzyj</Button>
+          <Button onClick={toggle}>Obejrzyj</Button>
           <Button onClick={handleDeleteClick}>Usuń</Button>
-          {addedFav && (
+          {!isFav && (
             <Button onClick={handleAddToFavouriteClick}>
               <AiOutlineStar />
             </Button>
           )}
-          {!addedFav && (
+          {isFav && (
             <Button onClick={handleDeleteFromFavouriteClick}>
               <AiFillStar />
             </Button>
           )}
         </CardBody>
       </Card>
+
+      <Modal isOpen={modal} toggle={toggle}>
+        <iframe
+          width="853"
+          height="480"
+          src={`https://www.youtube.com/embed/IAjL3W5OrFU`}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          title="Embedded youtube"
+        />
+      </Modal>
     </Col>
   );
 };

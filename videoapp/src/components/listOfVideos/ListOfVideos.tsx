@@ -3,7 +3,6 @@ import { Button, Form, Label, Input } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
 import useLocalState from "../customHooks/useLocalState";
 import ListItem from "../listItem/ListItem";
-import { youtubeClient } from "../../api/youtubeClient";
 import TileItem from "../tileItem/TileItem";
 
 import { VideoDetails } from "../../interfaces/VideoDetails";
@@ -49,6 +48,11 @@ const ListOfVideos = (props) => {
   const handleNumberClick = (event) => {
     setCurrentPage(event.target.id);
   };
+
+  useEffect(() => {
+    if (currentItems.length == 0 && props.videoData.length > 0) {
+    }
+  }, [currentItems]);
 
   return (
     <Container>
