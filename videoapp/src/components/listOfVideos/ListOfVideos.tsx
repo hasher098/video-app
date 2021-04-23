@@ -5,12 +5,14 @@ import useLocalState from "../customHooks/useLocalState";
 import ListItem from "../listItem/ListItem";
 import { youtubeClient } from "../../api/youtubeClient";
 import TileItem from "../tileItem/TileItem";
+
+import { VideoDetails } from "../../interfaces/VideoDetails";
 const ListOfVideos = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemPerPage] = useState(9);
   const [pageNumbers, setPageNumbers] = useState<number[]>([]);
   //logic for switch buttons
-  const [listType, setListType] = useState("list");
+  const [listType, setListType] = useState("tiles");
   const [firstButton, setFirstButton] = useState("success");
   const [secondButton, setSecondButton] = useState("secondary");
 
@@ -31,7 +33,6 @@ const ListOfVideos = (props) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = props.videoData.slice(indexOfFirstItem, indexOfLastItem);
-
   //Logic for page numbers
   useEffect(() => {
     const pageNumbersArr: number[] = [];
@@ -57,6 +58,7 @@ const ListOfVideos = (props) => {
       <Button color={secondButton} id="tiles" onClick={handleSwitchClick}>
         Kafelki
       </Button>
+
       <ul>
         {pageNumbers.map((item) => (
           <li key={item} id={item.toString()} onClick={handleNumberClick}>
@@ -65,7 +67,7 @@ const ListOfVideos = (props) => {
         ))}
       </ul>
       <Row>
-        {currentItems.length > 1 &&
+        {currentItems &&
           listType === "list" &&
           currentItems.map((item, id) => (
             <ul key={id.toString()}>
@@ -73,7 +75,7 @@ const ListOfVideos = (props) => {
             </ul>
           ))}
 
-        {currentItems.length > 1 &&
+        {currentItems &&
           listType === "tiles" &&
           currentItems.map((item, id) => (
             <TileItem key={id.toString()} data={item}></TileItem>

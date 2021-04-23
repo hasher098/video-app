@@ -1,6 +1,7 @@
 export interface VideoDetails {
-  viewCount?: number;
-  likeCount: number;
+  id: number;
+  viewCount?: string;
+  likeCount: string;
   name: string;
   imgUrl: string;
   addDate?: string;

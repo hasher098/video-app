@@ -1,7 +1,8 @@
 import { render } from "@testing-library/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, Label, Input, CardLink } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import {
   Card,
   CardImg,
@@ -11,8 +12,41 @@ import {
   CardSubtitle,
 } from "reactstrap";
 import { VideoDetails } from "../../interfaces/VideoDetails";
-
+import useLocalState from "../customHooks/useLocalState";
+import { ContextDetails } from "../main/Main";
 const TileItem = (props) => {
+  const { deleteItem, addToFavourite, deleteFromFavourite } = useContext(
+    ContextDetails
+  );
+  const [addedFav, setAddedFav] = useState(false);
+
+  const handleDeleteClick = () => {
+    deleteItem(props.data.id);
+  };
+
+  function checkFav() {
+    let copyFavourite = localStorage.getItem("favourite");
+    if (copyFavourite) {
+      const copy = JSON.parse(copyFavourite);
+      let has = copy.find((item) => {
+        return props.data.id == item.id;
+      });
+      has ? setAddedFav(false) : setAddedFav(true);
+    }
+  }
+  useEffect(() => {
+    checkFav();
+  });
+
+  const handleAddToFavouriteClick = () => {
+    addToFavourite(props.data.id);
+    setAddedFav(false);
+  };
+
+  const handleDeleteFromFavouriteClick = () => {
+    deleteFromFavourite(props.data.id);
+    setAddedFav(true);
+  };
   return (
     <Col sm="4">
       <Card>
@@ -25,10 +59,21 @@ const TileItem = (props) => {
             Views:{props.data.viewCount}
             Likes:{props.data.likeCount}
             Published at:{props.data.addDate}
+            ID:{props.data.id}
           </CardText>
+
           <Button>Obejrzyj</Button>
-          <Button>Usuń</Button>
-          <Button>Dodaj do ulubionych</Button>
+          <Button onClick={handleDeleteClick}>Usuń</Button>
+          {addedFav && (
+            <Button onClick={handleAddToFavouriteClick}>
+              <AiOutlineStar />
+            </Button>
+          )}
+          {!addedFav && (
+            <Button onClick={handleDeleteFromFavouriteClick}>
+              <AiFillStar />
+            </Button>
+          )}
         </CardBody>
       </Card>
     </Col>

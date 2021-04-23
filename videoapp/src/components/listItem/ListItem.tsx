@@ -15,6 +15,10 @@ const ListItem = (props) => {
       <img src={props.data.imgUrl}></img>
       <br />
       Published at: {props.data.addDate}
+      <br />
+      <Button>Obejrzyj</Button>
+      <Button>Usuń</Button>
+      <Button>Dodaj do ulubionych</Button>
     </li>
   );
 };
