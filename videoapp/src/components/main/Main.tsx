@@ -101,7 +101,7 @@ const Main = () => {
           viewCount: res.statistics.viewCount,
           likeCount: res.statistics.likeCount,
           name: res.snippet.title,
-          imgUrl: res.snippet.thumbnails.standard.url,
+          imgUrl: res.snippet.thumbnails.high.url,
           addDate: Date(),
           idFromUrl: dataFromChild,
           videoService: "youtube",
@@ -179,7 +179,7 @@ const Main = () => {
     <ContextDetails.Provider
       value={{ deleteItem, addToFavourite, deleteFromFavourite }}
     >
-      <Container className="themed-container">
+      <Container className="themed-container" style={{ background: "#F3F3F3" }}>
         <TextArea
           parentYtCallback={getYoutubeDataFromChild}
           parentViCallback={getVimeoDataFromChild}

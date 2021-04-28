@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const youtubeClient = axios.create({
   baseURL: `https://youtube.googleapis.com/youtube/v3`,
 });

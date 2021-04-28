@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Label, Input } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
-
+import styles from "./textarea.module.css";
 const TextArea = (props) => {
   //State for holding url
   const [url, setUrl] = useState<string>("");
@@ -46,8 +46,8 @@ const TextArea = (props) => {
 
   return (
     <Container>
+      <Label></Label>
       <Form>
-        <Label for="link">Link</Label>
         <Row>
           <Col xs="10">
             <Input
@@ -59,8 +59,15 @@ const TextArea = (props) => {
             ></Input>
           </Col>
           <Col xs="2">
-            <Button onClick={youtubeIdCallback}>Klik</Button>
-            <Button onClick={vimeoIdCallback}>Vimeo</Button>
+            <button
+              className={styles.youtubeButton}
+              onClick={youtubeIdCallback}
+            >
+              Youtube
+            </button>
+            <button className={styles.vimeoButton} onClick={vimeoIdCallback}>
+              Vimeo
+            </button>
           </Col>
         </Row>
       </Form>

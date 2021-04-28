@@ -6,9 +6,12 @@ import React, {
   useRef,
   createRef,
 } from "react";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { numberWithCommas, formatDate } from "../../helpers/Converters";
+import { GrLike, GrView, GrCalendar, GrTrash } from "react-icons/gr";
 import { Button, Form, Label, Input, CardLink, Modal } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import styles from "./tileitem.module.css";
 import {
   Card,
   CardImg,
@@ -20,6 +23,7 @@ import {
 import { VideoDetails } from "../../interfaces/VideoDetails";
 import useLocalState from "../customHooks/useLocalState";
 import { ContextDetails } from "../main/Main";
+import { CgMiniPlayer } from "react-icons/cg";
 const TileItem = (props) => {
   //Using Context
   const { deleteItem, addToFavourite, deleteFromFavourite } = useContext(
@@ -60,7 +64,7 @@ const TileItem = (props) => {
 
   const toggle = () => setModal(!modal);
   return (
-    <Col sm="4">
+    <Col sm="12" md="6" xl="4">
       <Card>
         <CardBody>
           <CardTitle tag="h5">{props.data.name}</CardTitle>
@@ -72,25 +76,55 @@ const TileItem = (props) => {
           alt="Image"
         />
         <CardBody>
-          <CardText>
-            Views:{props.data.viewCount}
-            Likes:{props.data.likeCount}
-            Published at:{props.data.addDate}
-            ID:{props.data.id}
-          </CardText>
-
-          <Button onClick={toggle}>Obejrzyj</Button>
-          <Button onClick={handleDeleteClick}>Usuń</Button>
-          {!isFav && (
-            <Button onClick={handleAddToFavouriteClick}>
-              <AiOutlineStar />
-            </Button>
-          )}
-          {isFav && (
-            <Button onClick={handleDeleteFromFavouriteClick}>
-              <AiFillStar />
-            </Button>
-          )}
+          <Col xs="12" className={styles.textInMiddle}>
+            <Row>
+              <Col
+                xs="12"
+                md="6"
+                style={{ padding: "0px", textAlign: "center" }}
+              >
+                <GrView />
+                {numberWithCommas(props.data.viewCount)}
+              </Col>
+              <Col
+                xs="12"
+                md="6"
+                style={{ padding: "0px", textAlign: "center" }}
+              >
+                <GrLike />
+                {numberWithCommas(props.data.likeCount)}
+              </Col>
+              <Col
+                xs="12"
+                md="12"
+                style={{ padding: "0px", textAlign: "center" }}
+              >
+                <GrCalendar />
+                {formatDate(props.data.addDate)}
+              </Col>
+            </Row>
+          </Col>
+          <Row>
+            <Col xs="12" className={styles.textInMiddle}>
+              <CgMiniPlayer className={styles.squareButton} onClick={toggle} />
+              <GrTrash
+                className={styles.squareButton}
+                onClick={handleDeleteClick}
+              />
+              {!isFav && (
+                <AiOutlineStar
+                  className={styles.squareButton}
+                  onClick={handleAddToFavouriteClick}
+                />
+              )}
+              {isFav && (
+                <AiFillStar
+                  className={styles.squareButton}
+                  onClick={handleDeleteFromFavouriteClick}
+                />
+              )}
+            </Col>
+          </Row>
         </CardBody>
       </Card>
 

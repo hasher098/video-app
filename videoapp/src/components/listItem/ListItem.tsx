@@ -1,8 +1,12 @@
 import { render } from "@testing-library/react";
+import styles from "./listitem.module.css";
+import { numberWithCommas, formatDate } from "../../helpers/Converters";
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, Label, Input, CardLink, Modal } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import { GrLike, GrView, GrCalendar, GrTrash } from "react-icons/gr";
+import { CgMiniPlayer } from "react-icons/cg";
 import {
   Card,
   CardImg,
@@ -54,33 +58,63 @@ const ListItem = (props) => {
 
   const toggle = () => setModal(!modal);
   return (
-    <Col sm="12">
-      <Card>
-        <CardTitle tag="h5">{props.data.name}</CardTitle>
+    <Col className={styles.listItem} sm="12">
+      <Container>
+        <Row>
+          <Col sm="3">
+            <img
+              onClick={toggle}
+              width="100%"
+              src={props.data.imgUrl}
+              alt="Image"
+            />
+          </Col>
+          <Col sm="9">
+            <Row className={styles.upperBox}>
+              <Col sm="12" md="6" xl="8" className={styles.textInMiddle}>
+                {props.data.name}
+              </Col>
+              <Col sm="12" md="6" xl="4" className={styles.textInMiddle}>
+                <CgMiniPlayer
+                  className={styles.squareButton}
+                  onClick={toggle}
+                />
+                <GrTrash
+                  className={styles.squareButton}
+                  onClick={handleDeleteClick}
+                />
+                {!isFav && (
+                  <AiOutlineStar
+                    className={styles.squareButton}
+                    onClick={handleAddToFavouriteClick}
+                  />
+                )}
+                {isFav && (
+                  <AiFillStar
+                    className={styles.squareButton}
+                    onClick={handleDeleteFromFavouriteClick}
+                  />
+                )}
+              </Col>
+            </Row>
+            <Row className={styles.detailsBar}>
+              <div>
+                <GrView />
+                {numberWithCommas(props.data.viewCount)}
+              </div>
+              <div>
+                <GrLike />
+                {numberWithCommas(props.data.likeCount)}
+              </div>
+              <div>
+                <GrCalendar />
+                {formatDate(props.data.addDate)}
+              </div>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
 
-        <img onClick={toggle} width="20%" src={props.data.imgUrl} alt="Image" />
-        <CardBody>
-          <CardText>
-            Views:{props.data.viewCount}
-            Likes:{props.data.likeCount}
-            Published at:{props.data.addDate}
-            ID:{props.data.id}
-          </CardText>
-
-          <Button onClick={toggle}>Obejrzyj</Button>
-          <Button onClick={handleDeleteClick}>Usuń</Button>
-          {!isFav && (
-            <Button onClick={handleAddToFavouriteClick}>
-              <AiOutlineStar />
-            </Button>
-          )}
-          {isFav && (
-            <Button onClick={handleDeleteFromFavouriteClick}>
-              <AiFillStar />
-            </Button>
-          )}
-        </CardBody>
-      </Card>
       <Modal isOpen={modal} toggle={toggle}>
         {props.data.videoService == "youtube" && (
           <iframe
