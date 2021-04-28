@@ -1,17 +1,18 @@
-import { useEffect, useState, useContext } from "react";
+import { useState } from "react";
 import { Button, Form, Label, Input } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
-import { isPropertySignature } from "typescript";
-
-import useLocalState from "../customHooks/useLocalState";
 
 const TextArea = (props) => {
-  const [url, setUrl] = useState("");
+  //State for holding url
+  const [url, setUrl] = useState<string>("");
+
+  //Function to set data from input to url state
   const handleChange = (event) => {
     setUrl(event.target.value);
   };
 
-  function extractYoutubeID(url) {
+  //Function to extract ID from youtube URLs
+  const extractYoutubeID = (url: string) => {
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     const match = url.match(regExp);
     if (match && match[7].length == 11) {
@@ -24,19 +25,23 @@ const TextArea = (props) => {
     } else {
       console.error("bad id");
     }
-  }
-
-  function extractVimeoID(url) {
-    const regExp = url.replace(/^https?\:\/\//i, "");
-    console.log("tutej");
-    console.log(regExp);
-  }
-  const youtubeIdCallback = () => {
-    props.parentCallback(extractYoutubeID(url));
   };
 
+  //Function to extract ID from vimeo link
+  const extractVimeoID = (url: string) => {
+    const regExp = url.replace("https://vimeo.com/", "");
+    let cuttedString = regExp.substr(regExp.lastIndexOf("/") + 1);
+    return cuttedString;
+  };
+
+  //Callback function to send data to parent
+  const youtubeIdCallback = () => {
+    props.parentYtCallback(extractYoutubeID(url));
+  };
+
+  //Callback function to send data to parent
   const vimeoIdCallback = () => {
-    props.parentCallback(extractVimeoID(url));
+    props.parentViCallback(extractVimeoID(url));
   };
 
   return (

@@ -1,19 +1,19 @@
-let Vimeo = require("vimeo").Vimeo;
+import axios from "axios";
+const Vimeo = require("vimeo").Vimeo;
 
-const vimeoClient = new Vimeo(clientId, clientSecret, accessToken);
-export const getVimeoData = (id) => {
-  vimeoClient.request(
-    /*options*/ {
-      method: "GET",
-      path: `/videos/${id}`,
+const vimeoClient = axios.create({
+  baseURL: `https://api.vimeo.com`,
+});
+
+export const getVimeoData = async (id: string) => {
+  const resp = await vimeoClient.get(`videos/${id}`, {
+    headers: {
+      Authorization: "Bearer " + accessToken,
     },
-    function (error, body, status_code, headers) {
-      if (error) {
-        console.log("error");
-        console.log(error);
-      } else {
-        return body;
-      }
-    }
-  );
+  });
+  if (resp.status == 200) {
+    return resp.data;
+  } else {
+    return Error("Bad Request");
+  }
 };

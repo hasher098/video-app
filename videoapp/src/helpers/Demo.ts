@@ -9,6 +9,8 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:29:15 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
   {
     id: 1,
@@ -18,6 +20,8 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:30:15 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
   {
     id: 2,
@@ -27,6 +31,8 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:30:15 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
   {
     id: 3,
@@ -36,6 +42,8 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:30:16 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
   {
     id: 4,
@@ -45,6 +53,8 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:30:16 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
   {
     id: 5,
@@ -54,6 +64,8 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:30:17 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
   {
     id: 6,
@@ -63,6 +75,8 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:30:17 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
   {
     id: 7,
@@ -72,6 +86,8 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:30:17 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
   {
     id: 8,
@@ -81,6 +97,8 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:30:17 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
   {
     id: 9,
@@ -90,6 +108,8 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:30:17 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
   {
     id: 10,
@@ -99,5 +119,7 @@ export const demoArray: VideoDetails[] = [
     imgUrl: "https://i.ytimg.com/vi/ffxKSjUwKdU/sddefault.jpg",
     addDate:
       "Tue Apr 20 2021 01:30:17 GMT+0200 (czas środkowoeuropejski letni)",
+    idFromUrl: "ffxKSjUwKdU",
+    videoService: "youtube",
   },
 ];

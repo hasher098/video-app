@@ -15,14 +15,12 @@ import { VideoDetails } from "../../interfaces/VideoDetails";
 import useLocalState from "../customHooks/useLocalState";
 import { ContextDetails } from "../main/Main";
 const ListItem = (props) => {
+  //Using Context
   const { deleteItem, addToFavourite, deleteFromFavourite } = useContext(
     ContextDetails
   );
-  const [addedFav, setAddedFav] = useState(false);
-
-  const handleDeleteClick = () => {
-    deleteItem(props.data.id);
-  };
+  //Logic for favourite list: add,delete and update list
+  const [isFav, setIsFav] = useState(false);
 
   function checkFav() {
     let copyFavourite = localStorage.getItem("favourite");
@@ -31,7 +29,7 @@ const ListItem = (props) => {
       let has = copy.find((item) => {
         return props.data.id == item.id;
       });
-      has ? setAddedFav(false) : setAddedFav(true);
+      has ? setIsFav(true) : setIsFav(false);
     }
   }
   useEffect(() => {
@@ -40,14 +38,18 @@ const ListItem = (props) => {
 
   const handleAddToFavouriteClick = () => {
     addToFavourite(props.data.id);
-    setAddedFav(false);
+    setIsFav(true);
   };
-
   const handleDeleteFromFavouriteClick = () => {
     deleteFromFavourite(props.data.id);
-    setAddedFav(true);
+    setIsFav(false);
   };
-  //youtube modal video
+  //Function to delete item
+  const handleDeleteClick = () => {
+    deleteItem(props.data.id);
+  };
+
+  //Logic for modal video
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
@@ -67,12 +69,12 @@ const ListItem = (props) => {
 
           <Button onClick={toggle}>Obejrzyj</Button>
           <Button onClick={handleDeleteClick}>Usuń</Button>
-          {addedFav && (
+          {!isFav && (
             <Button onClick={handleAddToFavouriteClick}>
               <AiOutlineStar />
             </Button>
           )}
-          {!addedFav && (
+          {isFav && (
             <Button onClick={handleDeleteFromFavouriteClick}>
               <AiFillStar />
             </Button>
@@ -80,15 +82,27 @@ const ListItem = (props) => {
         </CardBody>
       </Card>
       <Modal isOpen={modal} toggle={toggle}>
-        <iframe
-          width="853"
-          height="480"
-          src={`https://www.youtube.com/embed/IAjL3W5OrFU`}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          title="Embedded youtube"
-        />
+        {props.data.videoService == "youtube" && (
+          <iframe
+            width="853"
+            height="480"
+            src={`https://www.youtube.com/embed/${props.data.idFromUrl}`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="Embedded youtube"
+          />
+        )}
+        {props.data.videoService == "vimeo" && (
+          <iframe
+            src={`https://player.vimeo.com/video/${props.data.idFromUrl}`}
+            width="640"
+            height="360"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        )}
       </Modal>
     </Col>
   );

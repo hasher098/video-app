@@ -5,4 +5,6 @@ export interface VideoDetails {
   name: string;
   imgUrl: string;
   addDate?: string;
+  idFromUrl?: string;
+  videoService?: string;
 }

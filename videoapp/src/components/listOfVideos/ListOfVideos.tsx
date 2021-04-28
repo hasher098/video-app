@@ -7,26 +7,10 @@ import TileItem from "../tileItem/TileItem";
 
 import { VideoDetails } from "../../interfaces/VideoDetails";
 const ListOfVideos = (props) => {
+  //States and logic for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemPerPage] = useState(9);
   const [pageNumbers, setPageNumbers] = useState<number[]>([]);
-  //logic for switch buttons
-  const [listType, setListType] = useState("tiles");
-  const [firstButton, setFirstButton] = useState("success");
-  const [secondButton, setSecondButton] = useState("secondary");
-
-  const handleSwitchClick = (event) => {
-    if (event.target.id === "list") {
-      setListType("list");
-      setFirstButton("success");
-      setSecondButton("secondary");
-    }
-    if (event.target.id === "tiles") {
-      setListType("tiles");
-      setFirstButton("secondary");
-      setSecondButton("success");
-    }
-  };
 
   //Logic for current items
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -43,16 +27,34 @@ const ListOfVideos = (props) => {
       pageNumbersArr.push(i);
     }
     setPageNumbers(pageNumbersArr);
+    if (currentItems.length == 0) {
+      setCurrentPage(currentPage - 1);
+    }
   }, [props.videoData]);
 
+  //Logic for handling current page
   const handleNumberClick = (event) => {
     setCurrentPage(event.target.id);
   };
 
-  useEffect(() => {
-    if (currentItems.length == 0 && props.videoData.length > 0) {
+  //Logic for switching between list and tiles
+  const [listType, setListType] = useState("list");
+  const [firstButton, setFirstButton] = useState("success");
+  const [secondButton, setSecondButton] = useState("secondary");
+
+  //Function to changing type of list and colours of buttons
+  const handleSwitchClick = (event) => {
+    if (event.target.id === "list") {
+      setListType("list");
+      setFirstButton("success");
+      setSecondButton("secondary");
     }
-  }, [currentItems]);
+    if (event.target.id === "tiles") {
+      setListType("tiles");
+      setFirstButton("secondary");
+      setSecondButton("success");
+    }
+  };
 
   return (
     <Container>

@@ -21,14 +21,12 @@ import { VideoDetails } from "../../interfaces/VideoDetails";
 import useLocalState from "../customHooks/useLocalState";
 import { ContextDetails } from "../main/Main";
 const TileItem = (props) => {
+  //Using Context
   const { deleteItem, addToFavourite, deleteFromFavourite } = useContext(
     ContextDetails
   );
+  //Logic for favourite list: add,delete and update list
   const [isFav, setIsFav] = useState(false);
-
-  const handleDeleteClick = () => {
-    deleteItem(props.data.id);
-  };
 
   function checkFav() {
     let copyFavourite = localStorage.getItem("favourite");
@@ -46,15 +44,18 @@ const TileItem = (props) => {
 
   const handleAddToFavouriteClick = () => {
     addToFavourite(props.data.id);
-    console.log(props.data.id);
     setIsFav(true);
   };
-
   const handleDeleteFromFavouriteClick = () => {
     deleteFromFavourite(props.data.id);
     setIsFav(false);
   };
-  //youtube modal video
+  //Function to delete item
+  const handleDeleteClick = () => {
+    deleteItem(props.data.id);
+  };
+
+  //Logic for modal video
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(!modal);
@@ -94,15 +95,27 @@ const TileItem = (props) => {
       </Card>
 
       <Modal isOpen={modal} toggle={toggle}>
-        <iframe
-          width="853"
-          height="480"
-          src={`https://www.youtube.com/embed/IAjL3W5OrFU`}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          title="Embedded youtube"
-        />
+        {props.data.videoService == "youtube" && (
+          <iframe
+            width="853"
+            height="480"
+            src={`https://www.youtube.com/embed/${props.data.idFromUrl}`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="Embedded youtube"
+          />
+        )}
+        {props.data.videoService == "vimeo" && (
+          <iframe
+            src={`https://player.vimeo.com/video/${props.data.idFromUrl}`}
+            width="640"
+            height="360"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        )}
       </Modal>
     </Col>
   );
