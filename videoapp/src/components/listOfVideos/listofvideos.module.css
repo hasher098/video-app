@@ -34,3 +34,12 @@
     justify-content: center;
     align-items: center;    
 }
+
+.listItem{
+    width:100%;
+    margin-bottom:10px;
+}
+
+.uList{
+    list-style-type:none;
+}

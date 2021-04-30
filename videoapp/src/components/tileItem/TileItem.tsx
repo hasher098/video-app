@@ -1,27 +1,11 @@
-import { render } from "@testing-library/react";
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useRef,
-  createRef,
-} from "react";
+import { useContext, useEffect, useState } from "react";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { numberWithCommas, formatDate } from "../../helpers/Converters";
 import { GrLike, GrView, GrCalendar, GrTrash } from "react-icons/gr";
-import { Button, Form, Label, Input, CardLink, Modal } from "reactstrap";
-import { Container, Row, Col } from "reactstrap";
+import { Modal } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import styles from "./tileitem.module.css";
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-} from "reactstrap";
-import { VideoDetails } from "../../interfaces/VideoDetails";
-import useLocalState from "../customHooks/useLocalState";
+import { Card, CardBody, CardTitle } from "reactstrap";
 import { ContextDetails } from "../main/Main";
 import { CgMiniPlayer } from "react-icons/cg";
 const TileItem = (props) => {
@@ -65,7 +49,7 @@ const TileItem = (props) => {
   const toggle = () => setModal(!modal);
   return (
     <Col sm="12" md="6" xl="4" className={styles.card}>
-      <Card>
+      <Card style={{ height: "100%" }}>
         <CardBody>
           <CardTitle tag="h5">{props.data.name}</CardTitle>
         </CardBody>
@@ -78,27 +62,18 @@ const TileItem = (props) => {
         <CardBody>
           <Col xs="12" className={styles.textInMiddle}>
             <Row>
-              <Col
-                xs="12"
-                md="6"
-                style={{ padding: "0px", textAlign: "center" }}
-              >
-                <GrView />
-                {numberWithCommas(props.data.viewCount)}
-              </Col>
-              <Col
-                xs="12"
-                md="6"
-                style={{ padding: "0px", textAlign: "center" }}
-              >
+              {props.data.viewCount && (
+                <Col xs="12" style={{ padding: "0px", textAlign: "center" }}>
+                  <GrView />
+                  {numberWithCommas(props.data.viewCount)}
+                </Col>
+              )}
+
+              <Col xs="12" style={{ padding: "0px", textAlign: "center" }}>
                 <GrLike />
                 {numberWithCommas(props.data.likeCount)}
               </Col>
-              <Col
-                xs="12"
-                md="12"
-                style={{ padding: "0px", textAlign: "center" }}
-              >
+              <Col xs="12" style={{ padding: "0px", textAlign: "center" }}>
                 <GrCalendar />
                 {formatDate(props.data.addDate)}
               </Col>
