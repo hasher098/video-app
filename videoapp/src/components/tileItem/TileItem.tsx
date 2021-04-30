@@ -64,7 +64,7 @@ const TileItem = (props) => {
 
   const toggle = () => setModal(!modal);
   return (
-    <Col sm="12" md="6" xl="4">
+    <Col sm="12" md="6" xl="4" className={styles.card}>
       <Card>
         <CardBody>
           <CardTitle tag="h5">{props.data.name}</CardTitle>

@@ -1,0 +1,36 @@
+.paginationList{
+    list-style-type: none;
+    display:flex;
+    justify-content: center;
+    align-items: center;;
+}
+
+.paginationItem{
+    margin-top:5px;
+    width:40px;
+    height:40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border:1px  lightgray solid;
+    cursor:pointer;
+}
+
+.chosenPage{
+    margin-top:5px;
+    width:40px;
+    height:40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(236, 234, 233, 0.795);
+    border:1px  lightgray solid;
+    cursor:pointer;
+}
+
+.buttonsList{
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}

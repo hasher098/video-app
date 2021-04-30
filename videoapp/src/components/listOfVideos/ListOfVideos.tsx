@@ -4,6 +4,10 @@ import { Container, Row, Col } from "reactstrap";
 import useLocalState from "../customHooks/useLocalState";
 import ListItem from "../listItem/ListItem";
 import TileItem from "../tileItem/TileItem";
+import styles from "./listofvideos.module.css";
+import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
+import { GrFormPrevious, GrFormNext } from "react-icons/gr";
+import { BiLastPage, BiFirstPage } from "react-icons/bi";
 
 import { VideoDetails } from "../../interfaces/VideoDetails";
 const ListOfVideos = (props) => {
@@ -27,9 +31,6 @@ const ListOfVideos = (props) => {
       pageNumbersArr.push(i);
     }
     setPageNumbers(pageNumbersArr);
-    if (currentItems.length == 0) {
-      setCurrentPage(currentPage - 1);
-    }
   }, [props.videoData]);
 
   //Logic for handling current page
@@ -58,20 +59,60 @@ const ListOfVideos = (props) => {
 
   return (
     <Container>
-      <Button color={firstButton} id="list" onClick={handleSwitchClick}>
-        Lista
-      </Button>
-      <Button color={secondButton} id="tiles" onClick={handleSwitchClick}>
-        Kafelki
-      </Button>
-
-      <ul>
-        {pageNumbers.map((item) => (
-          <li key={item} id={item.toString()} onClick={handleNumberClick}>
-            {item}
-          </li>
-        ))}
-      </ul>
+      <Row>
+        <Col sm="12" md="3" className={styles.buttonsList}>
+          <Button color={firstButton} id="list" onClick={handleSwitchClick}>
+            List
+          </Button>
+          <Button color={secondButton} id="tiles" onClick={handleSwitchClick}>
+            Tiles
+          </Button>
+        </Col>
+        <Col sm="12" md="9">
+          <ul className={styles.paginationList}>
+            <li
+              onClick={() => setCurrentPage(1)}
+              className={styles.paginationItem}
+            >
+              <BiFirstPage></BiFirstPage>
+            </li>
+            <li
+              onClick={() => setCurrentPage(currentPage - 1)}
+              className={styles.paginationItem}
+            >
+              <GrFormPrevious></GrFormPrevious>
+            </li>
+            {pageNumbers.map((item) => (
+              <li
+                className={
+                  currentPage == item
+                    ? styles.chosenPage
+                    : styles.paginationItem
+                }
+                key={item}
+                id={item.toString()}
+                onClick={handleNumberClick}
+              >
+                {item}
+              </li>
+            ))}
+            <li
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className={styles.paginationItem}
+            >
+              <GrFormNext></GrFormNext>
+            </li>
+            <li
+              onClick={() =>
+                setCurrentPage(pageNumbers[pageNumbers.length - 1])
+              }
+              className={styles.paginationItem}
+            >
+              <BiLastPage></BiLastPage>
+            </li>
+          </ul>
+        </Col>
+      </Row>
       <Row>
         {currentItems &&
           listType === "list" &&

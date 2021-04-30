@@ -8,7 +8,7 @@ const vimeoClient = axios.create({
 export const getVimeoData = async (id: string) => {
   const resp = await vimeoClient.get(`videos/${id}`, {
     headers: {
-      Authorization: "Bearer " + accessToken,
+      Authorization: "Bearer " + process.env.REACT_APP_VIMEO_KEY,
     },
   });
   if (resp.status == 200) {

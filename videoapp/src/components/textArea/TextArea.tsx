@@ -60,12 +60,17 @@ const TextArea = (props) => {
           </Col>
           <Col xs="2">
             <button
+              type="button"
               className={styles.youtubeButton}
               onClick={youtubeIdCallback}
             >
               Youtube
             </button>
-            <button className={styles.vimeoButton} onClick={vimeoIdCallback}>
+            <button
+              type="button"
+              className={styles.vimeoButton}
+              onClick={vimeoIdCallback}
+            >
               Vimeo
             </button>
           </Col>

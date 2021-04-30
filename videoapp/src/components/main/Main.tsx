@@ -8,6 +8,7 @@ import { getYoutubeData } from "../../api/youtubeClient";
 import { VideoDetails } from "../../interfaces/VideoDetails";
 import { getVimeoData } from "../../api/vimeoClient";
 import { demoArray } from "../../helpers/Demo";
+import styles from "./main.module.css";
 import {
   Dropdown,
   DropdownToggle,
@@ -179,42 +180,52 @@ const Main = () => {
     <ContextDetails.Provider
       value={{ deleteItem, addToFavourite, deleteFromFavourite }}
     >
-      <Container className="themed-container" style={{ background: "#F3F3F3" }}>
+      <Container className="themed-container">
         <TextArea
           parentYtCallback={getYoutubeDataFromChild}
           parentViCallback={getVimeoDataFromChild}
         ></TextArea>
-        <Button color="info" onClick={handleDemoClick}>
-          Demo View
-        </Button>
-        <Button color="info" onClick={handleClearClick}>
-          Clear List
-        </Button>
-        Tylko ulubione
-        <Dropdown isOpen={dropdownOpen} toggle={toggle}>
-          <DropdownToggle caret>Sortuj po:</DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem
-              onClick={() => {
-                sortVideos("oldest");
-              }}
-            >
-              Najstarszy
-            </DropdownItem>
-            <DropdownItem
-              onClick={() => {
-                sortVideos("newest");
-              }}
-            >
-              Ostatni dodany
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-        <input
-          type="checkbox"
-          checked={favCheckBox}
-          onChange={handleCheckBoxChange}
-        />
+        <div className={styles.itemsList}>
+          <button className={styles.buttonItem} onClick={handleDemoClick}>
+            Demo View
+          </button>
+          <button
+            className={styles.buttonItem}
+            color="info"
+            onClick={handleClearClick}
+          >
+            Clear List
+          </button>
+          <div className={styles.buttonItem}>
+            Favourite
+            <input
+              type="checkbox"
+              checked={favCheckBox}
+              onChange={handleCheckBoxChange}
+            />
+          </div>
+          <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+            <DropdownToggle className={styles.buttonItem}>
+              Sort by:
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                onClick={() => {
+                  sortVideos("oldest");
+                }}
+              >
+                Oldest
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  sortVideos("newest");
+                }}
+              >
+                Newest
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
         <ListOfVideos videoData={finalData}></ListOfVideos>
       </Container>
     </ContextDetails.Provider>
