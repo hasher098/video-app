@@ -1,8 +1,7 @@
 import TextArea from "../textArea/TextArea";
-import { Container, Row, Col } from "reactstrap";
+import { Container } from "reactstrap";
 import ListOfVideos from "../listOfVideos/ListOfVideos";
 import useLocalState from "../customHooks/useLocalState";
-import { Button } from "reactstrap";
 import { useEffect, useState, createContext } from "react";
 import { getYoutubeData } from "../../api/youtubeClient";
 import { VideoDetails } from "../../interfaces/VideoDetails";

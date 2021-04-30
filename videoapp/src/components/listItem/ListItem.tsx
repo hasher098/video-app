@@ -1,22 +1,12 @@
-import { render } from "@testing-library/react";
 import styles from "./listitem.module.css";
 import { numberWithCommas, formatDate } from "../../helpers/Converters";
-import React, { useContext, useEffect, useState } from "react";
-import { Button, Form, Label, Input, CardLink, Modal } from "reactstrap";
+import { useContext, useEffect, useState } from "react";
+import { Modal } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { GrLike, GrView, GrCalendar, GrTrash } from "react-icons/gr";
 import { CgMiniPlayer } from "react-icons/cg";
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-} from "reactstrap";
-import { VideoDetails } from "../../interfaces/VideoDetails";
-import useLocalState from "../customHooks/useLocalState";
+
 import { ContextDetails } from "../main/Main";
 const ListItem = (props) => {
   //Using Context
@@ -31,7 +21,7 @@ const ListItem = (props) => {
     if (copyFavourite) {
       const copy = JSON.parse(copyFavourite);
       let has = copy.find((item) => {
-        return props.data.id == item.id;
+        return props.data.id === item.id;
       });
       has ? setIsFav(true) : setIsFav(false);
     }
@@ -64,9 +54,9 @@ const ListItem = (props) => {
           <Col sm="3">
             <img
               onClick={toggle}
+              alt={props.data.imgUrl.toString()}
               width="100%"
               src={props.data.imgUrl}
-              alt="Image"
             />
           </Col>
           <Col sm="9">
@@ -116,7 +106,7 @@ const ListItem = (props) => {
       </Container>
 
       <Modal isOpen={modal} toggle={toggle}>
-        {props.data.videoService == "youtube" && (
+        {props.data.videoService === "youtube" && (
           <iframe
             width="853"
             height="480"
@@ -124,10 +114,10 @@ const ListItem = (props) => {
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
-            title="Embedded youtube"
+            title={props.data.idFromUrl.toString()}
           />
         )}
-        {props.data.videoService == "vimeo" && (
+        {props.data.videoService === "vimeo" && (
           <iframe
             src={`https://player.vimeo.com/video/${props.data.idFromUrl}`}
             width="640"
@@ -135,6 +125,7 @@ const ListItem = (props) => {
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            title={props.data.idFromUrl.toString()}
           ></iframe>
         )}
       </Modal>

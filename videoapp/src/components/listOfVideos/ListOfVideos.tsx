@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Button, Form, Label, Input } from "reactstrap";
+import { useEffect, useState } from "react";
+import { Button } from "reactstrap";
 import { Container, Row, Col } from "reactstrap";
-import useLocalState from "../customHooks/useLocalState";
 import ListItem from "../listItem/ListItem";
 import TileItem from "../tileItem/TileItem";
 import styles from "./listofvideos.module.css";
-import { Pagination, PaginationItem, PaginationLink } from "reactstrap";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { BiLastPage, BiFirstPage } from "react-icons/bi";
 
-import { VideoDetails } from "../../interfaces/VideoDetails";
 const ListOfVideos = (props) => {
   //States and logic for pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -113,13 +110,13 @@ const ListOfVideos = (props) => {
           </ul>
         </Col>
       </Row>
-      <Row>
+      <Row style={{ listStyleType: "none" }}>
         {currentItems &&
           listType === "list" &&
           currentItems.map((item, id) => (
-            <ul key={id.toString()}>
+            <li className={styles.listItem} key={id.toString()}>
               <ListItem key={id.toString()} data={item}></ListItem>
-            </ul>
+            </li>
           ))}
 
         {currentItems &&
