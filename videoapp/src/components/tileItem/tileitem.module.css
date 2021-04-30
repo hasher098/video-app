@@ -1,0 +1,26 @@
+
+.textInMiddle{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.detailsBar{
+    display: flex;
+    justify-content: space-around;
+}
+
+.squareButton{
+    height:20px;
+    width:20px;
+    margin:10px;
+}
+
+.detailItem{
+    padding:0px;
+}
+
+.card{
+    margin-bottom:8px;
+}
