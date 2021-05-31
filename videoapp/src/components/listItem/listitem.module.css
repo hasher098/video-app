@@ -1,28 +1,32 @@
-.upperBox{
-    border-bottom:1px gray solid;
-    height:80%;
+.upperBox {
+  border-bottom: 1px gray solid;
+  height: 80%;
 }
 
-.textInMiddle{
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    font-size:18px;
-    font-weight:bold;
+.textInMiddle {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 18px;
+  font-weight: bold;
 }
 
-.detailsBar{
-    display: flex;
-    justify-content: space-around;
+.detailsBar {
+  display: flex;
+  justify-content: space-around;
 }
 
-.squareButton{
-    height:20px;
-    width:20px;
-    margin:10px;
+.squareButton {
+  height: 20px;
+  width: 20px;
+  margin: 10px;
+  cursor: pointer;
 }
 
-.listItem{
-    background:white;
-    padding:5px;
+.listItem {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 10px;
 }

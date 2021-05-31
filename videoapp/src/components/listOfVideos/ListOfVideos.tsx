@@ -27,12 +27,13 @@ const ListOfVideos = (props) => {
     ) {
       pageNumbersArr.push(i);
     }
+    setCurrentPage(1);
     setPageNumbers(pageNumbersArr);
-  }, [props.videoData]);
+  }, [props.videoData, itemsPerPage]);
 
   //Logic for handling current page
   const handleNumberClick = (event) => {
-    setCurrentPage(event.target.id);
+    setCurrentPage(Number(event.target.id));
   };
 
   //Logic for switching between list and tiles
@@ -74,7 +75,9 @@ const ListOfVideos = (props) => {
               <BiFirstPage></BiFirstPage>
             </li>
             <li
-              onClick={() => setCurrentPage(currentPage - 1)}
+              onClick={() => {
+                currentPage > 1 && setCurrentPage(currentPage - 1);
+              }}
               className={styles.paginationItem}
             >
               <GrFormPrevious></GrFormPrevious>
@@ -94,7 +97,10 @@ const ListOfVideos = (props) => {
               </li>
             ))}
             <li
-              onClick={() => setCurrentPage(currentPage + 1)}
+              onClick={() => {
+                currentPage < pageNumbers[pageNumbers.length - 1] &&
+                  setCurrentPage(currentPage + 1);
+              }}
               className={styles.paginationItem}
             >
               <GrFormNext></GrFormNext>

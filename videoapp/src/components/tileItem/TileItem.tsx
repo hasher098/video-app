@@ -10,9 +10,8 @@ import { ContextDetails } from "../main/Main";
 import { CgMiniPlayer } from "react-icons/cg";
 const TileItem = (props) => {
   //Using Context
-  const { deleteItem, addToFavourite, deleteFromFavourite } = useContext(
-    ContextDetails
-  );
+  const { deleteItem, addToFavourite, deleteFromFavourite } =
+    useContext(ContextDetails);
   //Logic for favourite list: add,delete and update list
   const [isFav, setIsFav] = useState(false);
 
@@ -49,7 +48,7 @@ const TileItem = (props) => {
   const toggle = () => setModal(!modal);
   return (
     <Col sm="12" md="6" xl="4" className={styles.card}>
-      <Card style={{ height: "100%" }}>
+      <Card style={{ border: "0px", background: "transparent" }}>
         <CardBody>
           <CardTitle tag="h5">{props.data.name}</CardTitle>
         </CardBody>
